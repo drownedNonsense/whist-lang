@@ -17,7 +17,7 @@
 
     #[derive(Clone, Debug, PartialEq, Eq)]
     pub enum WsToken {
-        Let, Set, If, While, Choose, Out, Throw, Tell, Def,
+        Let, Set, If, While, Choose, Out, Tell, Def,
 
         Ident(FixedStr<L16>), DigitLit(i16), StrLit(FixedStr<L32>),
 
@@ -68,8 +68,6 @@
                 "out"    => Ok(WsToken::Out),
                 "tell"   => Ok(WsToken::Tell),
                 "define" => Ok(WsToken::Def),
-
-                "throw" => Ok(WsToken::Throw),
 
                 "integer" => Ok(WsToken::Int),
                 "boolean" => Ok(WsToken::Bool),

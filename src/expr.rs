@@ -51,7 +51,6 @@
                     WsToken::Ellipsis    => { context.next(); Ok(Val::Void) },
 
                     WsToken::Minus       => { context.next(); let b = next_value(context)?; Ok(Val::Expr(Box::new(Expr::Op(Op::Neg(b))))) }
-                    WsToken::Throw       => { context.next(); let b = next_value(context)?; Ok(Val::Int (Expr::Val(b).as_int(context)?)) }
 
                     WsToken::LeftParen   => { context.next(); Ok(Val::Expr(Box::new(Expr::scan(context, None, WsToken::RightParen)?))) },
                     _                    => { let id = PrimitiveId::try_from(context.peek().unwrap())?; context.next(); let name = context.next_ref()?; Ok(Val::Ref(id, name)) },
@@ -103,7 +102,7 @@
                         _              => Err(InterpreterErr::WrongToken(context.token_index(), token.clone())),
                     }}, // => ..
                     None => match *context.peek().unwrap() {
-                        _ => { let val = next_value(context).unwrap(); Self::scan(context, Some(Expr::Val(val)), end_token) },
+                        _ => { let val = next_value(context)?; Self::scan(context, Some(Expr::Val(val)), end_token) },
                     }, // => ..
             }} // if ..
         } // fn ..
